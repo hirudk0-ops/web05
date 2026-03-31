@@ -1,31 +1,31 @@
 import { useState } from "react";
 function VideoCard({ title, channel, views }) {
-  const [likes, setLikes] = useState(0);
-  const [clicks, setClicks] = useState(0);
-  const handleCardClick = () => {
+  const [likes, setLikes] = useState(0); // 좋아요 state
+  const [clicks, setClicks] = useState(0); // 클릭 state
+  const handleCardClick = () => { // 카드 클릭 횟수 증가
     setClicks(clicks + 1);
   };
-  const handleLikeClick = (event) => {
+  const handleLikeClick = (event) => { // 좋아요 버튼 클릭 시 좋아요 숫자 올리기
     event.stopPropagation(); // 카드 클릭과 좋아요 클릭이 동시에 실행되지 않도록 막기
     setLikes(likes + 1);
   };
   return (
-    <div
+    <div // div 안에 모든 범위 클릭 가능
       onClick={handleCardClick}
-      style={{
+      style={{ // div 스타일 설정
         border: "1px solid #ccc",
         borderRadius: "12px",
         padding: "16px",
         marginBottom: "12px",
         cursor: "pointer",
-      }}
+      }} 
     >
       <h3>{title}</h3>
       <p>채널: {channel}</p>
       <p>조회수: {views}</p>
-      <p>클릭 수: {clicks}</p>
+      <p>클릭 수: {clicks}</p> 
       <p>좋아요 수: {likes}</p>
-      <button onClick={handleLikeClick}> 좋아요</button>
+      <button onClick={handleLikeClick}> 좋아요</button> 
     </div>
   );
 }
@@ -45,6 +45,9 @@ function VideoList({ videos }) {
 }
 function App() {
   const [filter, setFilter] = useState("전체");
+  // filter: 현재 선택된 카테고리 상태
+  // setFilter: filter 값을 변경하는 함수
+  // 초기값: "전체"
   const videos = [
     {
       id: 1,
@@ -75,25 +78,30 @@ function App() {
       category: "공부",
     },
   ];
-  const filteredVideos =
-    filter === "전체"
-      ? videos
-      : videos.filter((video) => video.category === filter);
+  const filteredVideos = 
+    filter === "전체" // 현재 선택 된 카테고리가 :전체" 인지 확인
+      ? videos // 조건이 참이면 원본 배열 그대로 사용
+      : videos.filter((video) => video.category === filter); // 조건이 거짓이면 필터링 시작
   return (
     <div style={{ padding: "20px" }}>
       <h1> 추천 영상</h1>
       <div style={{ marginBottom: "20px" }}>
+        {/* 클릭 시 전체 카테고리 보여주기 */}
         <button onClick={() => setFilter("전체")}>전체</button>
+        {/* 클릭 시 공부 카테고리 보여주기 */}
         <button onClick={() => setFilter("공부")} style={{ marginLeft: "8px" }}>
           공부
         </button>
+        {/* 클릭 시 자바스크립트 카테고리 보여주기 */}
         <button onClick={() => setFilter("자바스크립트")} style={{ marginLeft: "8px" }}>
           자바스크립트
         </button>
+        {/* 클릭 시 취업 카테고리 보여주기 */}
         <button onClick={() => setFilter("취업")} style={{ marginLeft: "8px" }}>
           취업
         </button>
       </div>
+      {/* 현재 적용중인 필터 알려주는 코딩 */}
       <p>현재 필터: {filter}</p>
       <VideoList videos={filteredVideos} />
     </div>
